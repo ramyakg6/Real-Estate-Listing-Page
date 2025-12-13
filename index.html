@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DreamHomes — Professional Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <h1>DreamHomes</h1>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#" onclick="openModal('uploadModal')">Upload</a>
+    <a href="#" onclick="openModal('contactModal')">Contact</a>
+    <a href="#" onclick="openModal('reviewModal')">Review</a>
+    <a href="#" onclick="openModal('loginModal')">Login</a>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="inner">
+    <h2>Find your perfect home-fast</h2>
+    <p>Search curated listings, with agents, post properties, and read honest reviews</p>
+  </div>
+  <div class="hero-arrow" onclick="nextImage()">&#10095;</div>
+</section>
+
+<!-- ABOUT WEBSITE SECTION -->
+<section class="about-website">
+  <div class="about-inner">
+    <h2>About DreamHomes</h2>
+    <p>
+      DreamHomes is your modern real-estate platform designed for fast, transparent,
+      and effortless property discovery. Search from curated listings, post your own 
+      properties, connect with verified agents, and explore honest reviews—all in one 
+      seamless experience.
+    </p>
+  </div>
+</section>
+<!--Search BOX-->
+<div class="search-box">
+  <input type="text" id="searchCity" placeholder="Search city...">
+  <select id="propertyType">
+    <option value="">Property Type</option>
+    <option>Apartment</option>
+    <option>House</option>
+    <option>Villa</option>
+  </select>
+  <select id="priceRange">
+    <option value="">Price Range</option>
+    <option value="0-1000">$500 - $1000</option>
+    <option value="1000-2000">$1000 - $2000</option>
+    <option value="2000-1000000">$2000+</option>
+  </select>
+  <button onclick="filterProperties()">Search</button>
+</div>
+
+<section class="listings" id="listings"></section>
+<section class="preview-sections">
+
+  <div class="preview-box">
+    <h2>Upload Property (Preview)</h2>
+    <p>Only a quick glimpse — full upload form is available inside the upload page.</p>
+    <button onclick="openModal('uploadModal')">Go to Upload Page</button>
+  </div>
+
+  <div class="preview-box">
+    <h2>Contact Agent (Preview)</h2>
+    <p>Quick assistance — full contact page available below.</p>
+    <button onclick="openModal('contactModal')">Contact Now</button>
+  </div>
+
+  <div class="preview-box">
+    <h2>Reviews</h2>
+    <p>Read what other people say about our platform.</p>
+    <button onclick="openModal('reviewModal')">Write a Review</button>
+  </div>
+
+</section>
+
+
+<section class="quick-actions">
+  <div class="q-box" onclick="openModal('uploadModal')">Upload Property</div>
+  <div class="q-box" onclick="openModal('contactModal')">Contact Agent</div>
+  <div class="q-box" onclick="openModal('reviewModal')">Write a Review</div>
+</section>
+
+<!-- PROPERTY DETAIL MODAL -->
+<div class="modal" id="propertyModal">
+  <div class="modal-content" id="propertyDetail">
+    <span class="close" onclick="closeModal('propertyModal')">&times;</span>
+  </div>
+</div>
+
+<!-- OTHER MODALS -->
+<div class="modal" id="uploadModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('uploadModal')">&times;</span>
+    <h2>Upload Property</h2>
+    <input type="text" placeholder="Property Title">
+    <input type="text" placeholder="Property type">
+    <input type="text" placeholder="Location">
+    <input type="number" placeholder="Price">
+    <input type="text" placeholder="Image URL">
+    <textarea placeholder="Description"></textarea>
+    <button>Submit</button>
+  </div>
+</div>
+
+<div class="modal" id="contactModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('contactModal')">&times;</span>
+    <h2>Contact Agent</h2>
+    <input type="text" placeholder="Your Name">
+    <input type="email" placeholder="Your Email">
+    <textarea placeholder="Message"></textarea>
+    <button>Send</button>
+  </div>
+</div>
+
+<div class="modal" id="reviewModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('reviewModal')">&times;</span>
+    <h2>Write a Review</h2>
+    <input type="text" placeholder="Name">
+    <textarea placeholder="Your Review"></textarea>
+    <button>Submit</button>
+  </div>
+</div>
+
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('loginModal')">&times;</span>
+    <h2>Login</h2>
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button>Login</button>
+  </div>
+</div>
+
+<footer>© 2025 DreamHomes — All rights reserved.</footer>
+
+<script>
+const hero = document.querySelector('.hero');
+const heroImages = [
+  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+  'https://images.unsplash.com/photo-1570129477492-45c003edd2be',
+  'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2',
+  'https://images.unsplash.com/photo-1505691938895-1758d7feb511'
+];
+
+let currentIndex = 0;
+
+function nextImage() {
+  currentIndex = (currentIndex + 1) % heroImages.length;
+  hero.style.background = `url('${heroImages[currentIndex]}') center/cover no-repeat`;
+}
+
+const properties = [
+  {id:1,title:"Modern Family House", type:"House", city:"California", price:1200, image:"https://images.unsplash.com/photo-1570129477492-45c003edd2be", desc:"Beautiful 3-bedroom home located in California."},
+  {id:2,title:"Luxury Villa", type:"Villa", city:"Florida", price:2800, image:"https://images.unsplash.com/photo-1580587771525-78b9dba3b914", desc:"Exclusive villa with seaside views and private pool."},
+  {id:3,title:"Urban Apartment", type:"Apartment", city:"New York", price:850, image:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2", desc:"Stylish 2-bedroom apartment in NYC."},
+  {id:4,title:"Cozy Cottage", type:"House", city:"Texas", price:950, image:"https://images.unsplash.com/photo-1505691938895-1758d7feb511", desc:"Charming 2-bedroom cottage."},
+  {id:5,title:"Penthouse Suite", type:"Apartment", city:"New York", price:3000, image:"https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg", desc:"Luxurious penthouse with skyline views."},
+  {id:6,title:"Suburban Home", type:"House", city:"California", price:1100, image:"https://images.pexels.com/photos/1212053/pexels-photo-1212053.jpeg", desc:"Comfortable 3-bedroom suburban home."},
+  {id:7,title:"Beachside Villa", type:"Villa", city:"Florida", price:2600, image:"https://images.unsplash.com/photo-1507089947368-19c1da9775ae", desc:"Villa with stunning beach views."},
+  {id:8,title:"Downtown Apartment", type:"Apartment", city:"Chicago", price:900, image:"https://images.unsplash.com/photo-1523217582562-09d0def993a6", desc:"Modern 1-bedroom apartment in downtown."},
+  {id:9,title:"Luxury Mansion", type:"House", city:"California", price:5000, image:"https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg", desc:"Grand mansion with pool and garden."},
+  {id:10,title:"Mountain Cabin", type:"House", city:"Colorado", price:800, image:"https://images.pexels.com/photos/259600/pexels-photo-259600.jpeg", desc:"Cozy cabin near mountain trails."},
+  {id:11,title:"City Loft", type:"Apartment", city:"San Francisco", price:1200, image:"https://images.unsplash.com/photo-1572120360610-d971b9d7767c", desc:"Spacious loft in the heart of the city."},
+]
+
+function displayProperties(props){
+  const container = document.getElementById("listings");
+  container.innerHTML = "";
+
+  props.forEach((p) => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.style.position = "relative";
+
+  card.innerHTML = `
+    <div class="fav-heart" onclick="toggleFavorite(event, ${p.id})">❤</div>
+    <img src="${p.image}" />
+    <div class="info">
+      <h3>${p.title}</h3>
+      <p>${p.desc.substring(0,50)}...</p>
+      <p class="price">$${p.price.toLocaleString()}</p>
+    </div>
+  `;
+
+  card.addEventListener("click",()=>showPropertyDetail(p));
+  container.appendChild(card);
+});
+
+}
+
+
+function showPropertyDetail(property){
+  const modal = document.getElementById("propertyModal");
+  const detail = document.getElementById("propertyDetail");
+  detail.innerHTML = `
+    <span class="close" onclick="closeModal('propertyModal')">&times;</span>
+    <img src="${property.image}" alt="${property.title}">
+    <div class="property-details">
+      <h2>${property.title}</h2>
+      <p>${property.city} • ${property.type}</p>
+      <p>${property.desc}</p>
+      <span class="type">${property.type}</span>
+      <p class="price">Price: $${property.price.toLocaleString()}</p>
+      <button onclick="closeModal('propertyModal')">Close</button>
+    </div>
+  `;
+  modal.style.display = "flex";
+}
+
+function filterProperties(){
+  const city = document.getElementById("searchCity").value.toLowerCase();
+  const type = document.getElementById("propertyType").value;
+  const priceRange = document.getElementById("priceRange").value;
+
+  let [minPrice,maxPrice] = [0,Infinity];
+  if(priceRange){
+    [minPrice,maxPrice] = priceRange.split("-").map(Number);
+  }
+
+  const filtered = properties.filter(p=>{
+    return (p.city.toLowerCase().includes(city)) &&
+           (type === "" || p.type === type) &&
+           (p.price >= minPrice && p.price <= maxPrice);
+  });
+  displayProperties(filtered);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  displayProperties(properties);
+  renderFavorites();
+});
+
+function openModal(id){ document.getElementById(id).style.display = "flex"; }
+function closeModal(id){ document.getElementById(id).style.display = "none"; }
+//heart
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+function toggleFavorite(event, id){
+  event.stopPropagation();
+
+  if(favorites.includes(id)){
+    favorites = favorites.filter(favId => favId !== id);
+  } else {
+    favorites.push(id);
+  }
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+  renderFavorites();
+}
+function renderFavorites(){
+  document.querySelectorAll(".fav-heart").forEach(heart => {
+    const id = parseInt(heart.getAttribute("onclick").match(/\d+/)[0]);
+    if(favorites.includes(id)){
+      heart.classList.add("active");
+    } else {
+      heart.classList.remove("active");
+    }
+  });
+}
+document.addEventListener("DOMContentLoaded", renderFavorites);
+
+</script>
+</body>
+</html>
